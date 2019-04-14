@@ -13,7 +13,7 @@
     <android.support.constraint.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_weight="3.25"
+        android:layout_weight="3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
 
@@ -50,7 +50,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView10"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></NumberPicker>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/textView10"
@@ -75,7 +75,7 @@
             app:layout_constraintEnd_toStartOf="@+id/textView11"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toEndOf="@+id/textView10"
-            app:layout_constraintTop_toTopOf="parent"></NumberPicker>
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <TextView
             android:id="@+id/textView11"
