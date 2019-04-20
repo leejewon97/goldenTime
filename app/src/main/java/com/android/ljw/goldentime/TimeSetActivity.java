@@ -38,7 +38,7 @@ public class TimeSetActivity extends AppCompatActivity
                 TimePickerDialog dialog = new TimePickerDialog(TimeSetActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
-
+                        // hour, min 가져옴..사용공간
                         String msg = String.format("%d 시 %d 분", hour, min);
                         Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
@@ -53,7 +53,7 @@ public class TimeSetActivity extends AppCompatActivity
                 TimePickerDialog dialog = new TimePickerDialog(TimeSetActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
-
+                        // hour, min 가져옴..사용공간
                         String msg = String.format("%d 시 %d 분", hour, min);
                         Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
                     }
