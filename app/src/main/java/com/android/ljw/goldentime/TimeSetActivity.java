@@ -25,16 +25,31 @@ public class TimeSetActivity extends AppCompatActivity
         hourPicker.setMaxValue(100);
         hourPicker.setWrapSelectorWheel(false);
         hourPicker.setOnLongPressUpdateInterval(100);
+        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
+        {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int old, int now) {
+                String msg = String.format("%d시간", now);
+                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
         minutePicker.setOnLongPressUpdateInterval(100);
+        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
+        {
+            @Override
+            public void onValueChange(NumberPicker numberPicker, int old, int now) {
+                String msg = String.format("%d분", now);
+                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
+            }
+        });
 
         final Calendar calendar = Calendar.getInstance();
 
         findViewById(R.id.btn_start).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 TimePickerDialog dialog = new TimePickerDialog(TimeSetActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
@@ -49,7 +64,6 @@ public class TimeSetActivity extends AppCompatActivity
         findViewById(R.id.btn_end).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 TimePickerDialog dialog = new TimePickerDialog(TimeSetActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hour, int min) {
@@ -61,5 +75,13 @@ public class TimeSetActivity extends AppCompatActivity
                 dialog.show();
             }
         });
+//        findViewById(R.id.btn_set).setOnClickListener(new View.OnClickListener()
+//        {
+//            @Override
+//            public void onClick(View view) {
+//                String msg = String.format("%d 시간 %d 분", hours, minutes);
+//                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 }

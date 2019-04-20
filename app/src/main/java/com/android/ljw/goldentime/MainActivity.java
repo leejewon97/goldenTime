@@ -71,12 +71,12 @@ public class MainActivity extends AppCompatActivity
         {
             if (Objects.equals(intent.getAction(), ScreenOff))
             {
-                Log.e("test", "Screen Off");
+                Log.e("testsc", "Screen Off");
                 //count 시작... 도달하면, sms 전송
             }
             else if (Objects.equals(intent.getAction(), ScreenOn))
             {
-                Log.e("test", "Screen On");
+                Log.e("testsc", "Screen On");
                 //count = 0
             }
         }
