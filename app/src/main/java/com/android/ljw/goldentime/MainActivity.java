@@ -9,13 +9,20 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
 {
 
     Button btn_num, btn_time, btn_txt, btn_sos;
+
+    private TimerTask mTask;
+    private Timer mTimer;
+    long setedTime = 360000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +67,16 @@ public class MainActivity extends AppCompatActivity
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
 
         registerReceiver(screenOnOff, intentFilter);
+
+        mTask = new TimerTask() {
+            @Override
+            public void run() {
+                Log.e("test","전송");
+                Toast.makeText(MainActivity.this,"위험 문자 전송",Toast.LENGTH_SHORT).show();
+            }
+        };
+        mTimer = new Timer(true);
+        mTimer.schedule(mTask,setedTime);
     }
 
     BroadcastReceiver screenOnOff = new BroadcastReceiver()
@@ -73,11 +90,13 @@ public class MainActivity extends AppCompatActivity
             {
                 Log.e("testsc", "Screen Off");
                 //count 시작... 도달하면, sms 전송
+                setedTime = 3000;
             }
             else if (Objects.equals(intent.getAction(), ScreenOn))
             {
                 Log.e("testsc", "Screen On");
                 //count = 0
+                setedTime = 10000;
             }
         }
     };

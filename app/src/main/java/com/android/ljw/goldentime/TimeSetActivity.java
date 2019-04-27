@@ -75,13 +75,5 @@ public class TimeSetActivity extends AppCompatActivity
                 dialog.show();
             }
         });
-//        findViewById(R.id.btn_set).setOnClickListener(new View.OnClickListener()
-//        {
-//            @Override
-//            public void onClick(View view) {
-//                String msg = String.format("%d 시간 %d 분", hours, minutes);
-//                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 }
