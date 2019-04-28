@@ -20,9 +20,10 @@ public class MainActivity extends AppCompatActivity
 
     Button btn_num, btn_time, btn_txt, btn_sos;
 
-    private TimerTask mTask;
+    static TimerTask mTask;
     private Timer mTimer;
     long setedTime = 360000;
+    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,15 +69,27 @@ public class MainActivity extends AppCompatActivity
 
         registerReceiver(screenOnOff, intentFilter);
 
-        mTask = new TimerTask() {
+//        mTask = new TimerTask() {
+//            @Override
+//            public void run() {
+////                Log.e("test","전송");
+////                Toast.makeText(MainActivity.this,"위험 문자 전송",Toast.LENGTH_SHORT).show();
+//                count++;
+//            }
+//        };
+        mTimer = new Timer(true);
+    }
+
+    public TimerTask redefTask(){
+        TimerTask tempTask = new TimerTask()
+        {
             @Override
             public void run() {
-                Log.e("test","전송");
-                Toast.makeText(MainActivity.this,"위험 문자 전송",Toast.LENGTH_SHORT).show();
+                count++;
+                Log.e("test카운트",String.valueOf(count));
             }
         };
-        mTimer = new Timer(true);
-        mTimer.schedule(mTask,setedTime);
+        return tempTask;
     }
 
     BroadcastReceiver screenOnOff = new BroadcastReceiver()
@@ -90,13 +103,16 @@ public class MainActivity extends AppCompatActivity
             {
                 Log.e("testsc", "Screen Off");
                 //count 시작... 도달하면, sms 전송
-                setedTime = 3000;
+                mTask = redefTask();
+                mTimer.schedule(mTask,0,1000);
             }
             else if (Objects.equals(intent.getAction(), ScreenOn))
             {
                 Log.e("testsc", "Screen On");
                 //count = 0
-                setedTime = 10000;
+                mTask.cancel();
+                count = 0;
+                Log.e("test카운트",String.valueOf(count));
             }
         }
     };
