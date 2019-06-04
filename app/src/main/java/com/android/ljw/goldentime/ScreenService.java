@@ -6,11 +6,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
+import android.util.Log;
 
 public class ScreenService extends Service
 {
     private BroadcastReceiver mReceiver;
-    private PackageReceiver pReceiver;
 
     public ScreenService() {
     }
@@ -18,18 +18,13 @@ public class ScreenService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.e("testsc", "ScreenService create");
+
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
         intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
         mReceiver = new ScreenReceiver();
         registerReceiver(mReceiver, intentFilter);
-
-        pReceiver = new PackageReceiver();
-        IntentFilter pFilter = new IntentFilter(Intent.ACTION_PACKAGE_ADDED);
-        pFilter.addAction(Intent.ACTION_PACKAGE_REMOVED);
-        pFilter.addAction(Intent.ACTION_PACKAGE_REPLACED);
-        pFilter.addDataScheme("package");
-        registerReceiver(pReceiver, pFilter);
     }
 
     @Override
@@ -48,9 +43,6 @@ public class ScreenService extends Service
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
-
-        if(pReceiver != null)
-            unregisterReceiver(pReceiver);
     }
 
     @Override

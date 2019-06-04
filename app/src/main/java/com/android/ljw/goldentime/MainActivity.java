@@ -3,6 +3,7 @@ package com.android.ljw.goldentime;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         btn_num = findViewById(R.id.btn_num);
@@ -51,6 +53,7 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
+
 //
 //        IntentFilter intentFilter = new IntentFilter();
 //        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
@@ -69,6 +72,9 @@ public class MainActivity extends AppCompatActivity
 //        mTimer = new Timer(true);
     }
 
+    public void clickMethod(View v){
+        sendBroadcast(new Intent("com.android.ljw.ScreenReceiver.gogo"));
+    }
 //    public TimerTask redefTask(){
 //        TimerTask tempTask = new TimerTask()
 //        {
