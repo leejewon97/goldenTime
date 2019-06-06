@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ScreenService extends Service
 {
@@ -19,6 +20,7 @@ public class ScreenService extends Service
     public void onCreate() {
         super.onCreate();
         Log.e("testsc", "ScreenService create");
+        Toast.makeText(this, "start service", Toast.LENGTH_SHORT).show();
 
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(Intent.ACTION_SCREEN_ON);
@@ -29,6 +31,8 @@ public class ScreenService extends Service
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        Log.e("testsc", "ScreenService startCommand");
+
         if (intent == null) {
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction(Intent.ACTION_SCREEN_ON);

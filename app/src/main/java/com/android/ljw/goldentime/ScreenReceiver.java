@@ -11,6 +11,7 @@ public class ScreenReceiver extends BroadcastReceiver
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        Log.e("testsc", "onReceive");
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
             Log.e("testsc", "Screen On");
@@ -20,16 +21,18 @@ public class ScreenReceiver extends BroadcastReceiver
             Log.e("testsc", "Screen Off");
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
         }
-        if (intent.getAction().equals("com.android.ljw.ScreenReceiver.gogo")) {
-            Log.d("testsc", "intent gogo");
+        if (intent.getAction().equals(".intent_gogo")) {
+            Log.e("testsc", "intent gogo");
             Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
 
             Intent service_intent = new Intent(context, ScreenService.class);
-//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                context.startForegroundService(service_intent);
-//            } else {
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                context.startForegroundService(service_intent);
+                Log.e("testsc", "ForegroundService");
+            } else {
                 context.startService(service_intent);
-//            }
+                Log.e("testsc", "Service");
+            }
         }
     }
 }

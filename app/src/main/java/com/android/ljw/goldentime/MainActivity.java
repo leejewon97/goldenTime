@@ -10,7 +10,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity
 {
 
-    Button btn_num, btn_time, btn_txt, btn_sos;
+    Button btn_num, btn_time, btn_words, btn_sos;
 
 //    static TimerTask mTask;
 //    private Timer mTimer;
@@ -22,11 +22,14 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        sendBroadcast(new Intent(".intent_gogo"));
+        Log.e("testsc", "send_broadcast");
+
         setContentView(R.layout.activity_main);
 
         btn_num = findViewById(R.id.btn_num);
         btn_time = findViewById(R.id.btn_time);
-        btn_txt = findViewById(R.id.btn_txt);
+        btn_words = findViewById(R.id.btn_words);
         btn_sos = findViewById(R.id.btn_sos);
 
         btn_num.setOnClickListener(new View.OnClickListener()
@@ -45,11 +48,11 @@ public class MainActivity extends AppCompatActivity
                 startActivity(intent);
             }
         });
-        btn_txt.setOnClickListener(new View.OnClickListener()
+        btn_words.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getBaseContext(), NumSetActivity.class);
+                Intent intent = new Intent(getBaseContext(), WordsSetActivity.class);
                 startActivity(intent);
             }
         });
@@ -72,9 +75,6 @@ public class MainActivity extends AppCompatActivity
 //        mTimer = new Timer(true);
     }
 
-    public void clickMethod(View v){
-        sendBroadcast(new Intent("com.android.ljw.ScreenReceiver.gogo"));
-    }
 //    public TimerTask redefTask(){
 //        TimerTask tempTask = new TimerTask()
 //        {
