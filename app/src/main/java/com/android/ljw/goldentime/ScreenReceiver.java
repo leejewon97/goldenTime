@@ -10,6 +10,8 @@ import android.widget.Toast;
 
 public class ScreenReceiver extends BroadcastReceiver
 {
+    AlarmManager alarmManager;
+    PendingIntent pIntent;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -19,13 +21,13 @@ public class ScreenReceiver extends BroadcastReceiver
             Log.e("testsc", "Screen On");
             Toast.makeText(context, "Screen On", Toast.LENGTH_SHORT).show();
             //화면이 켜지면, 알람을 끔
-//            setAlarm();
+            releaseAlarm(context);
         }
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             Log.e("testsc", "Screen Off");
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
-//            releaseAlarm();
+            setAlarm(context, 5000);
         }
         if (intent.getAction().equals(".intent_gogo")) {
             Log.e("testsc", "intent gogo");
@@ -43,21 +45,23 @@ public class ScreenReceiver extends BroadcastReceiver
     }
 
 
-    public static void setAlarm(Context context, long time){
+    private void setAlarm(Context context, long time) {
         Log.e("testal", "setAlarm()");
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Intent Intent = new Intent(context,SendSms.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent Intent = new Intent(context, SendSms.class);
+        pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + time, pIntent);
     }
 
-    private void releaseAlarm(Context context){
+    private void releaseAlarm(Context context) {
         Log.e("testal", "releaseAlarm()");
-        AlarmManager alarmManager = (AlarmManager)context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Intent Intent = new Intent(context,SendSms.class);
-        PendingIntent pIntent = PendingIntent.getActivity(context, 0, Intent, 0);
+        Intent Intent = new Intent(context, SendSms.class);
+        pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         alarmManager.cancel(pIntent);
+    }
 }

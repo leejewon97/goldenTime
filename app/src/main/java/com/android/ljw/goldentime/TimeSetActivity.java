@@ -1,6 +1,7 @@
 package com.android.ljw.goldentime;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -14,7 +15,7 @@ import java.util.Calendar;
 public class TimeSetActivity extends AppCompatActivity
 {
     NumberPicker hourPicker, minutePicker;
-    Button btn_start, btn_end;
+    Button btn_start, btn_end, btn_set;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,30 +26,32 @@ public class TimeSetActivity extends AppCompatActivity
         minutePicker = findViewById(R.id.minutes);
         btn_start = findViewById(R.id.btn_start);
         btn_end = findViewById(R.id.btn_end);
+        btn_set = findViewById(R.id.btn_set);
 
-        hourPicker.setMinValue(1);
+        hourPicker.setMinValue(0);
+        //테스트용으로 잠시 최솟값을 0으로 낮춤
         hourPicker.setMaxValue(100);
         hourPicker.setWrapSelectorWheel(false);
         hourPicker.setOnLongPressUpdateInterval(100);
-        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
-        {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int old, int now) {
-                String msg = String.format("%d시간", now);
-                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
+//        {
+//            @Override
+//            public void onValueChange(NumberPicker numberPicker, int old, int now) {
+//                String msg = String.format("%d시간", now);
+//                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
+//            }
+//        });
         minutePicker.setMinValue(0);
         minutePicker.setMaxValue(59);
         minutePicker.setOnLongPressUpdateInterval(100);
-        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
-        {
-            @Override
-            public void onValueChange(NumberPicker numberPicker, int old, int now) {
-                String msg = String.format("%d분", now);
-                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
-            }
-        });
+//        minutePicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()
+//        {
+//            @Override
+//            public void onValueChange(NumberPicker numberPicker, int old, int now) {
+//                String msg = String.format("%d분", now);
+//                Toast.makeText(TimeSetActivity.this, msg, Toast.LENGTH_SHORT).show();
+//            }
+//        });
 
         final Calendar calendar = Calendar.getInstance();
 
@@ -84,5 +87,28 @@ public class TimeSetActivity extends AppCompatActivity
                 dialog.show();
             }
         });
+        btn_set.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                int hour = hourPicker.getValue();
+                int min = minutePicker.getValue();
+                String time = hour + "시 " + min + "분";
+                Toast.makeText(getBaseContext(), time, Toast.LENGTH_SHORT).show();
+
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                intent.putExtra("hour", hour);
+                intent.putExtra("min", min);
+                startActivity(intent);
+            }
+        });
+    }
+
+    private long getTime() {
+        int hour = hourPicker.getValue();
+        int min = minutePicker.getValue();
+
+        long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
+        return time;
     }
 }
