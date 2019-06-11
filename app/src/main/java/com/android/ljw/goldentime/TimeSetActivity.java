@@ -104,7 +104,7 @@ public class TimeSetActivity extends AppCompatActivity
         });
     }
 
-    private long getTime() {
+    public long getTime() {
         int hour = hourPicker.getValue();
         int min = minutePicker.getValue();
 
