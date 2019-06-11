@@ -1,5 +1,6 @@
 package com.android.ljw.goldentime;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -34,22 +35,24 @@ public class WordsSetActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 save();
+                Intent intent = new Intent(getBaseContext(), MainActivity.class);
+                startActivity(intent);
             }
         });
 
     }
 
-    public void save() {
+    private void save() {
         SharedPreferences.Editor editor = wordsData.edit();
 
         editor.putString("WORDS", editText.getText().toString());
-        editor.putString("WORDSSOS", editTextSOS.getText().toString());
+        editor.putString("WORDS_SOS", editTextSOS.getText().toString());
 
         editor.apply();
     }
 
-    public void load() {
+    private void load() {
         words = wordsData.getString("WORDS", "");
-        wordsSOS = wordsData.getString("WORDSSOS", "");
+        wordsSOS = wordsData.getString("WORDS_SOS", "");
     }
 }

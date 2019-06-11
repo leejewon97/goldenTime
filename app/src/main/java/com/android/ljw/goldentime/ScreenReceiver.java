@@ -21,13 +21,13 @@ public class ScreenReceiver extends BroadcastReceiver
             Log.e("testsc", "Screen On");
             Toast.makeText(context, "Screen On", Toast.LENGTH_SHORT).show();
             //화면이 켜지면, 알람을 끔
-            releaseAlarm(context);
+//            releaseAlarm(context);
         }
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             Log.e("testsc", "Screen Off");
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
-            setAlarm(context, 5000);
+//            setAlarm(context, 5000);
         }
         if (intent.getAction().equals(".intent_gogo")) {
             Log.e("testsc", "intent gogo");
