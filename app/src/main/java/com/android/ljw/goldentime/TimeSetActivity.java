@@ -15,7 +15,7 @@ import java.util.Calendar;
 
 public class TimeSetActivity extends AppCompatActivity
 {
-    private SharedPreferences timeData;
+    protected SharedPreferences timeData;
     int hour, min;
     int start_eHour, start_eMin, end_eHour, end_eMin;
     String start, end;
@@ -151,14 +151,5 @@ public class TimeSetActivity extends AppCompatActivity
         start_eMin = timeData.getInt("START_E_MIN", calendar.get(Calendar.MINUTE));
         end_eHour = timeData.getInt("END_E_HOUR", calendar.get(Calendar.HOUR_OF_DAY));
         end_eMin = timeData.getInt("END_E_MIN", calendar.get(Calendar.MINUTE));
-    }
-
-    public long getTime() {
-        //pickerㄴㄴ, getPreference
-        int hour = hourPicker.getValue();
-        int min = minutePicker.getValue();
-
-        long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
-        return time;
     }
 }

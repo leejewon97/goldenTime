@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.os.IBinder;
 import android.util.Log;
 import android.widget.Toast;
@@ -12,6 +13,8 @@ import android.widget.Toast;
 public class ScreenService extends Service
 {
     private BroadcastReceiver mReceiver;
+    SharedPreferences timeData;
+    static int hour, min;
 
     public ScreenService() {
     }
@@ -32,6 +35,9 @@ public class ScreenService extends Service
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("testsc", "ScreenService startCommand");
+        timeData = getSharedPreferences("timeData", MODE_PRIVATE);
+        hour = timeData.getInt("HOUR", 1);
+        min = timeData.getInt("MIN", 0);
 
         if (intent == null) {
             IntentFilter intentFilter = new IntentFilter();

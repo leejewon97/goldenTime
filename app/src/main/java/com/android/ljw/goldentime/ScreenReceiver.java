@@ -21,13 +21,13 @@ public class ScreenReceiver extends BroadcastReceiver
             Log.e("testsc", "Screen On");
             Toast.makeText(context, "Screen On", Toast.LENGTH_SHORT).show();
             //화면이 켜지면, 알람을 끔
-//            releaseAlarm(context);
+            releaseAlarm(context);
         }
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             Log.e("testsc", "Screen Off");
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
-//            setAlarm(context, 5000);
+            setAlarm(context, getTime());
         }
         if (intent.getAction().equals(".intent_gogo")) {
             Log.e("testsc", "intent gogo");
@@ -46,7 +46,7 @@ public class ScreenReceiver extends BroadcastReceiver
 
 
     private void setAlarm(Context context, long time) {
-        Log.e("testal", "setAlarm()");
+        Log.e("testAL", "setAlarm()");
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent Intent = new Intent(context, SendSms.class);
@@ -56,12 +56,22 @@ public class ScreenReceiver extends BroadcastReceiver
     }
 
     private void releaseAlarm(Context context) {
-        Log.e("testal", "releaseAlarm()");
+        Log.e("testAL", "releaseAlarm()");
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent Intent = new Intent(context, SendSms.class);
         pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.cancel(pIntent);
+    }
+
+    public long getTime() {
+        int hour = ScreenService.hour;
+        int min = ScreenService.min;
+
+        long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
+        Log.e("testAL", hour + "시 " + min + "분");
+
+        return time;
     }
 }
