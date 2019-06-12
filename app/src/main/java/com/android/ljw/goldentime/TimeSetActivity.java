@@ -1,7 +1,6 @@
 package com.android.ljw.goldentime;
 
 import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -119,8 +118,7 @@ public class TimeSetActivity extends AppCompatActivity
 
                 save();
 
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
     }

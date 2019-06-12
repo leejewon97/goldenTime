@@ -35,8 +35,7 @@ public class WordsSetActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 save();
-                Intent intent = new Intent(getBaseContext(), MainActivity.class);
-                startActivity(intent);
+                onBackPressed();
             }
         });
 
