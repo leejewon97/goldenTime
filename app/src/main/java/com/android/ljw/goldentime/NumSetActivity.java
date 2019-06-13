@@ -48,7 +48,7 @@ public class NumSetActivity extends AppCompatActivity
                 public void onClick(View view) {
                     for (int j = 0; j < 5; j++) {
                         if (view.getId() == minus[j].getId())
-                            delete(num[j]);
+                            num[j].getText().clear();
                     }
                 }
             });
@@ -56,18 +56,14 @@ public class NumSetActivity extends AppCompatActivity
     }
 
     private void sort() {
-        Log.e("sort","실행");
+        Log.e("sort", "실행");
         for (int i = 0; i < 4; i++) {
-            Log.e("sort","반복문_1");
             //string.equals("")가 안되서 TextUtils.isEmpty(string)로 대체했다
             if (TextUtils.isEmpty(num[i].getText())) {
-                Log.e("sortBlank", num[i].getText().toString());
-                for (int j = i+1; j<5; j++){
-                    if (!TextUtils.isEmpty(num[j].getText())){
-                        Log.e("sortMark", num[i].getText().toString());
-
-                        num[i].setText(num[j].getText());
-                        num[j].setText("");
+                for (int k = i + 1; k < 5; k++) {
+                    if (!TextUtils.isEmpty(num[k].getText())) {
+                        num[i].setText(num[k].getText());
+                        num[k].getText().clear();
                         break;
                     }
                 }
@@ -87,9 +83,5 @@ public class NumSetActivity extends AppCompatActivity
     private void load() {
         for (int i = 0; i < 5; i++)
             num[i].setText(numData.getString(key[i], ""));
-    }
-
-    private void delete(EditText editText) {
-        editText.setText("");
     }
 }
