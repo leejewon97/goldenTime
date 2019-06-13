@@ -14,10 +14,8 @@ import java.util.Calendar;
 
 public class TimeSetActivity extends AppCompatActivity
 {
-    protected SharedPreferences timeData;
-    int hour, min;
+    private SharedPreferences timeData;
     int start_eHour, start_eMin, end_eHour, end_eMin;
-    String start, end;
     NumberPicker hourPicker, minutePicker;
     Button btn_start, btn_end, btn_set;
     Calendar calendar;
@@ -63,11 +61,11 @@ public class TimeSetActivity extends AppCompatActivity
 
         timeData = getSharedPreferences("timeData", MODE_PRIVATE);
         load();
-
-        hourPicker.setValue(hour);
-        minutePicker.setValue(min);
-        btn_start.setText(start);
-        btn_end.setText(end);
+//
+//        hourPicker.setValue(hour);
+//        minutePicker.setValue(min);
+//        btn_start.setText(start);
+//        btn_end.setText(end);
 
         btn_start.setOnClickListener(new View.OnClickListener()
         {
@@ -81,8 +79,7 @@ public class TimeSetActivity extends AppCompatActivity
                         start_eHour = hour;
                         start_eMin = min;
 
-                        start = start_eHour + "시 " + start_eMin + "분";
-                        btn_start.setText(start);
+                        btn_start.setText(start_eHour + "시 " + start_eMin + "분");
                     }
                 }, start_eHour, start_eMin, false);  //마지막 boolean 값은 시간을 24시간으로 보일지 아닐지
                 dialog.show();
@@ -100,8 +97,7 @@ public class TimeSetActivity extends AppCompatActivity
                         end_eHour = hour;
                         end_eMin = min;
 
-                        end = end_eHour + "시 " + end_eMin + "분";
-                        btn_end.setText(end);
+                        btn_end.setText(end_eHour + "시 " + end_eMin + "분");
                     }
                 }, end_eHour, end_eMin, false);  //마지막 boolean 값은 시간을 24시간으로 보일지 아닐지
                 dialog.show();
@@ -113,8 +109,7 @@ public class TimeSetActivity extends AppCompatActivity
             public void onClick(View view) {
                 int hour = hourPicker.getValue();
                 int min = minutePicker.getValue();
-                String time = hour + "시 " + min + "분";
-                Toast.makeText(getBaseContext(), time, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getBaseContext(), hour + "시간 " + min + "분 으로 설정되었습니다.", Toast.LENGTH_SHORT).show();
 
                 save();
 
@@ -140,10 +135,10 @@ public class TimeSetActivity extends AppCompatActivity
     }
 
     private void load() {
-        hour = timeData.getInt("HOUR", 1);
-        min = timeData.getInt("MIN", 0);
-        start = timeData.getString("START", btn_start.getText().toString());
-        end = timeData.getString("END", btn_end.getText().toString());
+        hourPicker.setValue(timeData.getInt("HOUR", 1));
+        minutePicker.setValue(timeData.getInt("MIN", 0));
+        btn_start.setText(timeData.getString("START", btn_start.getText().toString()));
+        btn_end.setText(timeData.getString("END", btn_end.getText().toString()));
 
         start_eHour = timeData.getInt("START_E_HOUR", calendar.get(Calendar.HOUR_OF_DAY));
         start_eMin = timeData.getInt("START_E_MIN", calendar.get(Calendar.MINUTE));

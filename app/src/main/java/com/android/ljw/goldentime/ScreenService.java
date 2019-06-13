@@ -2,7 +2,6 @@ package com.android.ljw.goldentime;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
-import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -13,7 +12,7 @@ import android.widget.Toast;
 public class ScreenService extends Service
 {
     private BroadcastReceiver mReceiver;
-    SharedPreferences timeData;
+    private SharedPreferences timeData;
     static int hour, min;
 
     public ScreenService() {

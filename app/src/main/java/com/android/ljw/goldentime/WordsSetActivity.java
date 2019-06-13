@@ -1,6 +1,5 @@
 package com.android.ljw.goldentime;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,7 +10,7 @@ import android.widget.EditText;
 public class WordsSetActivity extends AppCompatActivity
 {
     private SharedPreferences wordsData;
-    String words, wordsSOS;
+    String wordsSOS;
     EditText editText, editTextSOS;
     Button btn_set;
 
@@ -26,9 +25,6 @@ public class WordsSetActivity extends AppCompatActivity
 
         wordsData = getSharedPreferences("wordsData", MODE_PRIVATE);
         load();
-
-        editText.setText(words);
-        editTextSOS.setText(wordsSOS);
 
         btn_set.setOnClickListener(new View.OnClickListener()
         {
@@ -51,7 +47,7 @@ public class WordsSetActivity extends AppCompatActivity
     }
 
     private void load() {
-        words = wordsData.getString("WORDS", "");
-        wordsSOS = wordsData.getString("WORDS_SOS", "");
+        editText.setText(wordsData.getString("WORDS", ""));
+        editTextSOS.setText(wordsData.getString("WORDS_SOS", ""));
     }
 }
