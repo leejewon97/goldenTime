@@ -59,6 +59,7 @@ public class NumSetActivity extends AppCompatActivity
         Log.e("sort","실행");
         for (int i = 0; i < 4; i++) {
             Log.e("sort","반복문_1");
+            //string.equals("")가 안되서 TextUtils.isEmpty(string)로 대체했다
             if (TextUtils.isEmpty(num[i].getText())) {
                 Log.e("sortBlank", num[i].getText().toString());
                 for (int j = i+1; j<5; j++){
