@@ -8,30 +8,38 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+
 public class ScreenReceiver extends BroadcastReceiver
 {
+    Boolean setCheck = false;
     AlarmManager alarmManager;
     PendingIntent pIntent;
+    Calendar calendar;
+    long dates[] = new long[6];
 
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("testsc", "onReceive");
 
-        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON)) {
+        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON) && setCheck) {
             Log.e("testsc", "Screen On");
             Toast.makeText(context, "Screen On", Toast.LENGTH_SHORT).show();
             //화면이 켜지면, 알람을 끔
             releaseAlarm(context);
+            setCheck = false;
         }
         if (intent.getAction().equals(Intent.ACTION_SCREEN_OFF)) {
             Log.e("testsc", "Screen Off");
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
             setAlarm(context, getTime());
+            setCheck = true;
         }
         if (intent.getAction().equals(".intent_gogo")) {
             Log.e("testsc", "intent gogo");
-            Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
 
             Intent service_intent = new Intent(context, ScreenService.class);
             if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
@@ -47,10 +55,20 @@ public class ScreenReceiver extends BroadcastReceiver
 
     private void setAlarm(Context context, long time) {
         Log.e("testAL", "setAlarm()");
+        calendar = Calendar.getInstance();
+        for (int i = 0; i < dates.length; i++) {
+            dates[i] = calendar.getTimeInMillis();
+            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        }
+//        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy년 MM월 dd일, HH시 mm분 ss초 ");
+//        for (int i = 0; i < 6; i++) {
+//            Log.e("날짜", "dates[" + i + "] : " + sdformat.format(dates[i]));
+//        }
+
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-        Intent Intent = new Intent(context, SendSms.class);
-        pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, SendSms.class);
+        pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + time, pIntent);
     }

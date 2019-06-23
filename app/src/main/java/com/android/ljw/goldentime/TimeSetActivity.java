@@ -107,6 +107,8 @@ public class TimeSetActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View view) {
+
+
                 int hour = hourPicker.getValue();
                 int min = minutePicker.getValue();
                 Toast.makeText(getBaseContext(), hour + "시간 " + min + "분 으로 설정되었습니다.", Toast.LENGTH_SHORT).show();
