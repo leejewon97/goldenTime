@@ -24,11 +24,11 @@ public class ScreenService extends Service
         Log.e("testsc", "ScreenService create");
         Toast.makeText(this, "start service", Toast.LENGTH_SHORT).show();
 
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-        mReceiver = new ScreenReceiver();
-        registerReceiver(mReceiver, intentFilter);
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
+//        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
+//        mReceiver = new ScreenReceiver();
+//        registerReceiver(mReceiver, intentFilter);
     }
 
     @Override

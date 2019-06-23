@@ -15,6 +15,7 @@ import java.util.Calendar;
 public class TimeSetActivity extends AppCompatActivity
 {
     private SharedPreferences timeData;
+    boolean exeptTime;
     int start_eHour, start_eMin, end_eHour, end_eMin;
     NumberPicker hourPicker, minutePicker;
     Button btn_start, btn_end, btn_set;
@@ -107,11 +108,18 @@ public class TimeSetActivity extends AppCompatActivity
         {
             @Override
             public void onClick(View view) {
-
-
-                int hour = hourPicker.getValue();
-                int min = minutePicker.getValue();
-                Toast.makeText(getBaseContext(), hour + "시간 " + min + "분 으로 설정되었습니다.", Toast.LENGTH_SHORT).show();
+                if (start_eHour == end_eHour && start_eMin == end_eMin) {
+                    exeptTime = false;
+                    Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else if (btn_start.getText().equals("시작 시간") || btn_end.getText().equals("끝나는 시간")){
+                    exeptTime = false;
+                    Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
+                }
+                else {
+                    exeptTime = true;
+                    Toast.makeText(getBaseContext(), "예외시간 : " + btn_start.getText() + " ~ " + btn_end.getText(), Toast.LENGTH_SHORT).show();
+                }
 
                 save();
 
@@ -125,13 +133,23 @@ public class TimeSetActivity extends AppCompatActivity
 
         editor.putInt("HOUR", hourPicker.getValue());
         editor.putInt("MIN", minutePicker.getValue());
-        editor.putString("START", btn_start.getText().toString());
-        editor.putString("END", btn_end.getText().toString());
+        if (exeptTime) {
+            editor.putString("START", btn_start.getText().toString());
+            editor.putString("END", btn_end.getText().toString());
 
-        editor.putInt("START_E_HOUR", start_eHour);
-        editor.putInt("START_E_MIN", start_eMin);
-        editor.putInt("END_E_HOUR", end_eHour);
-        editor.putInt("END_E_MIN", end_eMin);
+            editor.putInt("START_E_HOUR", start_eHour);
+            editor.putInt("START_E_MIN", start_eMin);
+            editor.putInt("END_E_HOUR", end_eHour);
+            editor.putInt("END_E_MIN", end_eMin);
+        } else {
+            editor.remove("START");
+            editor.remove("END");
+
+            editor.remove("START_E_HOUR");
+            editor.remove("START_E_MIN");
+            editor.remove("END_E_HOUR");
+            editor.remove("END_E_MIN");
+        }
 
         editor.apply();
     }

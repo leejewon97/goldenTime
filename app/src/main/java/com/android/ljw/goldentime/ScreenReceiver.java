@@ -18,6 +18,8 @@ public class ScreenReceiver extends BroadcastReceiver
     PendingIntent pIntent;
     Calendar calendar;
     long dates[] = new long[6];
+    int eDates[][][] = new int[5][2][3];
+    int start_eHour, start_eMin, end_eHour, end_eMin;
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -35,6 +37,7 @@ public class ScreenReceiver extends BroadcastReceiver
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
             setAlarm(context, getTime());
+            selectDates();
             setCheck = true;
         }
         if (intent.getAction().equals(".intent_gogo")) {
@@ -50,6 +53,10 @@ public class ScreenReceiver extends BroadcastReceiver
                 Log.e("testsc", "Service");
             }
         }
+    }
+
+    private void selectDates() {
+
     }
 
 
