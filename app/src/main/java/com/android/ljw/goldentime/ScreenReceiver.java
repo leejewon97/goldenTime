@@ -5,14 +5,18 @@ import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
+import static android.content.Context.MODE_PRIVATE;
+
 public class ScreenReceiver extends BroadcastReceiver
 {
+    private SharedPreferences timeData;
     Boolean setCheck = false;
     AlarmManager alarmManager;
     PendingIntent pIntent;
@@ -24,6 +28,7 @@ public class ScreenReceiver extends BroadcastReceiver
     @Override
     public void onReceive(Context context, Intent intent) {
         Log.e("testsc", "onReceive");
+        timeData = context.getSharedPreferences("timeData", MODE_PRIVATE);
 
         if (intent.getAction().equals(Intent.ACTION_SCREEN_ON) && setCheck) {
             Log.e("testsc", "Screen On");
@@ -42,6 +47,7 @@ public class ScreenReceiver extends BroadcastReceiver
         }
         if (intent.getAction().equals(".intent_gogo")) {
             Log.e("testsc", "intent gogo");
+
 //            Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
 
             Intent service_intent = new Intent(context, ScreenService.class);
@@ -91,8 +97,8 @@ public class ScreenReceiver extends BroadcastReceiver
     }
 
     public long getTime() {
-        int hour = ScreenService.hour;
-        int min = ScreenService.min;
+        int hour = timeData.getInt("HOUR", 1);
+        int min = timeData.getInt("MIN", 0);
 
         long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
         Log.e("testAL", hour + "시 " + min + "분");
