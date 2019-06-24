@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -43,11 +44,11 @@ public class ScreenReceiver extends BroadcastReceiver
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
             setAlarm(context, getTime());
-            if (TimeSetActivity.exceptCheck) {
-                eLoad();
-                selectDates();
-                plusTime();
-            }
+//            if (TimeSetActivity.exceptCheck) {
+//                eLoad();
+//                selectDates();
+//                plusTime();
+//            }
             setCheck = true;
         }
         if (intent.getAction().equals(".intent_gogo")) {
@@ -71,19 +72,29 @@ public class ScreenReceiver extends BroadcastReceiver
     }
 
     private void selectDates() {
-        if (start_eHour < end_eHour || (start_eHour == end_eHour && start_eMin < end_eMin)) {
+        SimpleDateFormat yFormat = new SimpleDateFormat("yy");
+        SimpleDateFormat MFormat = new SimpleDateFormat("MM");
+        SimpleDateFormat dFormat = new SimpleDateFormat("dd");
 
+        if (start_eHour < end_eHour || (start_eHour == end_eHour && start_eMin < end_eMin)) {
+            for (int i = 0; i < eDates.length; i++) {
+                for (int j = 0; j < eDates[i].length; j++) {
+                    eDates[i][j][0] = Integer.parseInt(yFormat.format(dates[i]));
+                    eDates[i][j][1] = Integer.parseInt(MFormat.format(dates[i]));
+                    eDates[i][j][2] = Integer.parseInt(dFormat.format(dates[i]));
+                }
+            }
         } else if (start_eHour > end_eHour || (start_eHour == end_eHour && start_eMin > end_eMin)) {
             int set_hour, set_min;
-            SimpleDateFormat hFormat = new SimpleDateFormat("HH");
+            SimpleDateFormat HFormat = new SimpleDateFormat("HH");
             SimpleDateFormat mFormat = new SimpleDateFormat("mm");
-            set_hour = Integer.parseInt(hFormat.format(dates[0]));
+            set_hour = Integer.parseInt(HFormat.format(dates[0]));
             set_min = Integer.parseInt(mFormat.format(dates[0]));
 
             if (set_hour < end_eHour || (set_hour == end_eHour && set_min <= end_eMin)) {
 
             } else {
-                
+
             }
         }
     }
@@ -96,9 +107,26 @@ public class ScreenReceiver extends BroadcastReceiver
             dates[i] = calendar.getTimeInMillis();
             calendar.add(Calendar.DAY_OF_MONTH, 1);
         }
-//        SimpleDateFormat sdformat = new SimpleDateFormat("yyyy년 MM월 dd일, HH시 mm분 ss초 ");
+//        SimpleDateFormat sdformat = new SimpleDateFormat("yy년 MM월 dd일, HH시 mm분 ss초 ");
 //        for (int i = 0; i < 6; i++) {
 //            Log.e("날짜", "dates[" + i + "] : " + sdformat.format(dates[i]));
+//        }
+//        SimpleDateFormat yFormat = new SimpleDateFormat("yy");
+//        SimpleDateFormat MFormat = new SimpleDateFormat("MM");
+//        SimpleDateFormat dFormat = new SimpleDateFormat("dd");
+//        for (int i = 0; i < eDates.length; i++) {
+//            for (int j = 0; j < eDates[i].length; j++) {
+//                eDates[i][j][0] = Integer.parseInt(yFormat.format(dates[i]));
+//                eDates[i][j][1] = Integer.parseInt(MFormat.format(dates[i]));
+//                eDates[i][j][2] = Integer.parseInt(dFormat.format(dates[i]));
+//            }
+//        }
+//        for (int i = 0; i < eDates.length; i++) {
+//            for (int j = 0; j < eDates[i].length; j++) {
+//                for (int k = 0; k < eDates[i][j].length; k++) {
+//                    Log.e("array", "eDates[" + i + "][" + j + "][" + k + "] : " + eDates[i][j][k]);
+//                }
+//            }
 //        }
 
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
