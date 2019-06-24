@@ -15,7 +15,7 @@ import java.util.Calendar;
 public class TimeSetActivity extends AppCompatActivity
 {
     private SharedPreferences timeData;
-    boolean exeptTime;
+    static boolean exceptCheck;
     int start_eHour, start_eMin, end_eHour, end_eMin;
     NumberPicker hourPicker, minutePicker;
     Button btn_start, btn_end, btn_set;
@@ -109,15 +109,15 @@ public class TimeSetActivity extends AppCompatActivity
             @Override
             public void onClick(View view) {
                 if (start_eHour == end_eHour && start_eMin == end_eMin) {
-                    exeptTime = false;
+                    exceptCheck = false;
                     Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else if (btn_start.getText().equals("시작 시간") || btn_end.getText().equals("끝나는 시간")){
-                    exeptTime = false;
+                    exceptCheck = false;
                     Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else {
-                    exeptTime = true;
+                    exceptCheck = true;
                     Toast.makeText(getBaseContext(), "예외시간 : " + btn_start.getText() + " ~ " + btn_end.getText(), Toast.LENGTH_SHORT).show();
                 }
 
@@ -133,7 +133,7 @@ public class TimeSetActivity extends AppCompatActivity
 
         editor.putInt("HOUR", hourPicker.getValue());
         editor.putInt("MIN", minutePicker.getValue());
-        if (exeptTime) {
+        if (exceptCheck) {
             editor.putString("START", btn_start.getText().toString());
             editor.putString("END", btn_end.getText().toString());
 

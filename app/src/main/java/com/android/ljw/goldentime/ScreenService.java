@@ -11,8 +11,6 @@ import android.widget.Toast;
 public class ScreenService extends Service
 {
     private BroadcastReceiver mReceiver;
-//    private SharedPreferences timeData;
-//    static int hour, min;
 
     public ScreenService() {
     }

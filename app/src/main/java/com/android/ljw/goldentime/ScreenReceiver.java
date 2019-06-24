@@ -18,6 +18,7 @@ public class ScreenReceiver extends BroadcastReceiver
 {
     private SharedPreferences timeData;
     Boolean setCheck = false;
+    Boolean notSendCheck = false;
     AlarmManager alarmManager;
     PendingIntent pIntent;
     Calendar calendar;
@@ -42,7 +43,11 @@ public class ScreenReceiver extends BroadcastReceiver
             Toast.makeText(context, "Screen Off", Toast.LENGTH_SHORT).show();
             // 화면이 꺼지면, 알람을 켬
             setAlarm(context, getTime());
-            selectDates();
+            if (TimeSetActivity.exceptCheck) {
+                eLoad();
+                selectDates();
+                plusTime();
+            }
             setCheck = true;
         }
         if (intent.getAction().equals(".intent_gogo")) {
@@ -61,8 +66,26 @@ public class ScreenReceiver extends BroadcastReceiver
         }
     }
 
-    private void selectDates() {
+    private int plusTime() {
+        return 0;
+    }
 
+    private void selectDates() {
+        if (start_eHour < end_eHour || (start_eHour == end_eHour && start_eMin < end_eMin)) {
+
+        } else if (start_eHour > end_eHour || (start_eHour == end_eHour && start_eMin > end_eMin)) {
+            int set_hour, set_min;
+            SimpleDateFormat hFormat = new SimpleDateFormat("HH");
+            SimpleDateFormat mFormat = new SimpleDateFormat("mm");
+            set_hour = Integer.parseInt(hFormat.format(dates[0]));
+            set_min = Integer.parseInt(mFormat.format(dates[0]));
+
+            if (set_hour < end_eHour || (set_hour == end_eHour && set_min <= end_eMin)) {
+
+            } else {
+                
+            }
+        }
     }
 
 
@@ -96,7 +119,7 @@ public class ScreenReceiver extends BroadcastReceiver
         alarmManager.cancel(pIntent);
     }
 
-    public long getTime() {
+    private long getTime() {
         int hour = timeData.getInt("HOUR", 1);
         int min = timeData.getInt("MIN", 0);
 
@@ -104,5 +127,12 @@ public class ScreenReceiver extends BroadcastReceiver
         Log.e("testAL", hour + "시 " + min + "분");
 
         return time;
+    }
+
+    private void eLoad() {
+        start_eHour = timeData.getInt("START_E_HOUR", 0);
+        start_eMin = timeData.getInt("START_E_MIN", 0);
+        end_eHour = timeData.getInt("END_E_HOUR", 0);
+        end_eMin = timeData.getInt("END_E_MIN", 0);
     }
 }
