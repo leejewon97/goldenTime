@@ -75,16 +75,19 @@ public class ScreenReceiver extends BroadcastReceiver
         SimpleDateFormat yFormat = new SimpleDateFormat("yy");
         SimpleDateFormat MFormat = new SimpleDateFormat("MM");
         SimpleDateFormat dFormat = new SimpleDateFormat("dd");
+        SimpleDateFormat[] formats = {yFormat, MFormat, dFormat};
 
         if (start_eHour < end_eHour || (start_eHour == end_eHour && start_eMin < end_eMin)) {
+            // 시작시각 < 끝시각
             for (int i = 0; i < eDates.length; i++) {
                 for (int j = 0; j < eDates[i].length; j++) {
-                    eDates[i][j][0] = Integer.parseInt(yFormat.format(dates[i]));
-                    eDates[i][j][1] = Integer.parseInt(MFormat.format(dates[i]));
-                    eDates[i][j][2] = Integer.parseInt(dFormat.format(dates[i]));
+                    for (int k = 0; k < eDates[i][j].length; k++) {
+                        eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[i]));
+                    }
                 }
             }
         } else if (start_eHour > end_eHour || (start_eHour == end_eHour && start_eMin > end_eMin)) {
+            // 시작시각 > 끝시각
             int set_hour, set_min;
             SimpleDateFormat HFormat = new SimpleDateFormat("HH");
             SimpleDateFormat mFormat = new SimpleDateFormat("mm");
@@ -92,9 +95,34 @@ public class ScreenReceiver extends BroadcastReceiver
             set_min = Integer.parseInt(mFormat.format(dates[0]));
 
             if (set_hour < end_eHour || (set_hour == end_eHour && set_min <= end_eMin)) {
-
+                // set시각 <= 끝시각
+                for (int i = 0; i < eDates.length; i++) {
+                    for (int j = 0; j < eDates[i].length; j++) {
+                        for (int k = 0; k < eDates[i][j].length; k++) {
+                            if (j == 0) {
+                                if (i == 0) {
+                                    // dates[-1] 처리 (-1일)
+                                    eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[0] - (24 * 60 * 60)));
+                                } else
+                                    eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[i - 1]));
+                            } else if (j == 1) {
+                                eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[i]));
+                            }
+                        }
+                    }
+                }
             } else {
-
+                for (int i = 0; i < eDates.length; i++) {
+                    for (int j = 0; j < eDates[i].length; j++) {
+                        for (int k = 0; k < eDates[i][j].length; k++) {
+                            if (j == 0) {
+                                eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[i]));
+                            } else if (j == 1) {
+                                eDates[i][j][k] = Integer.parseInt(formats[k].format(dates[i + 1]));
+                            }
+                        }
+                    }
+                }
             }
         }
     }
