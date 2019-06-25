@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 public class SendSms extends AppCompatActivity
 {
@@ -27,13 +28,12 @@ public class SendSms extends AppCompatActivity
             selectDates();
 //            send 할때 체크
 //            long 추가시간
-//            for (예외날들.length) {
+//            for (예외날들.length)
 //                추가시간 += 예외(예외날들[i][0], 예외날들[i][1])
 //
 //            send 할때 체크
 //            If(예외확인 = true) {
 //                sendSMS 대신 setAlarm(추가시간)
-//                예외확인 = false;
 //            }else
 //                sendSms()
         } else
@@ -43,8 +43,21 @@ public class SendSms extends AppCompatActivity
     private void sendSms() {
     }
 
-    private int except() {
-        return 0;
+    private long except(int day1[], int day2[]) {
+        Calendar calendar1 = Calendar.getInstance();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar1.set(day1[0],day1[1],day1[2],start_eHour,start_eMin);
+        calendar2.set(day2[0],day2[1],day2[2],end_eHour,end_eMin);
+
+        long start = calendar1.getTimeInMillis();
+        long end = calendar2.getTimeInMillis();
+        long setTime = dates[0];
+        long sendTime = System.currentTimeMillis();
+        long confTime = 0;
+
+
+
+        return confTime;
     }
 
     private void eLoad() {
@@ -55,7 +68,7 @@ public class SendSms extends AppCompatActivity
     }
 
     private void selectDates() {
-        SimpleDateFormat yFormat = new SimpleDateFormat("yy");
+        SimpleDateFormat yFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat MFormat = new SimpleDateFormat("MM");
         SimpleDateFormat dFormat = new SimpleDateFormat("dd");
         SimpleDateFormat[] formats = {yFormat, MFormat, dFormat};

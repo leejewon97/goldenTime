@@ -9,8 +9,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.util.Calendar;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class ScreenReceiver extends BroadcastReceiver
@@ -19,7 +17,6 @@ public class ScreenReceiver extends BroadcastReceiver
     Boolean setCheck = false;
     AlarmManager alarmManager;
     PendingIntent pIntent;
-    Calendar calendar;
     static long[] dates = new long[6];
 
     @Override
@@ -60,10 +57,9 @@ public class ScreenReceiver extends BroadcastReceiver
 
     private void setAlarm(Context context, long time) {
         Log.e("testAL", "setAlarm()");
-        calendar = Calendar.getInstance();
-        for (int i = 0; i < dates.length; i++) {
-            dates[i] = calendar.getTimeInMillis();
-            calendar.add(Calendar.DAY_OF_MONTH, 1);
+        dates[0] = System.currentTimeMillis();
+        for (int i = 1; i < dates.length; i++) {
+            dates[i] = dates[i - 1] + (24 * 60 * 60 * 1000);
         }
 //        SimpleDateFormat sdformat = new SimpleDateFormat("yy년 MM월 dd일, HH시 mm분 ss초 ");
 //        for (int i = 0; i < 6; i++) {
@@ -97,31 +93,31 @@ public class ScreenReceiver extends BroadcastReceiver
 //            }
 //        }
 
-            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
-            Intent intent = new Intent(context, SendSms.class);
-            pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Intent intent = new Intent(context, SendSms.class);
+        pIntent = PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-            alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + time, pIntent);
-        }
-
-        private void releaseAlarm (Context context){
-            Log.e("testAL", "releaseAlarm()");
-            alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
-
-            Intent Intent = new Intent(context, SendSms.class);
-            pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-            alarmManager.cancel(pIntent);
-        }
-
-        private long getTime () {
-            int hour = timeData.getInt("HOUR", 1);
-            int min = timeData.getInt("MIN", 0);
-
-            long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
-            Log.e("testAL", hour + "시 " + min + "분");
-
-            return time;
-        }
+        alarmManager.set(AlarmManager.RTC_WAKEUP, System.currentTimeMillis() + time, pIntent);
     }
+
+    private void releaseAlarm(Context context) {
+        Log.e("testAL", "releaseAlarm()");
+        alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
+
+        Intent Intent = new Intent(context, SendSms.class);
+        pIntent = PendingIntent.getActivity(context, 0, Intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        alarmManager.cancel(pIntent);
+    }
+
+    private long getTime() {
+        int hour = timeData.getInt("HOUR", 1);
+        int min = timeData.getInt("MIN", 0);
+
+        long time = (hour * 3600 + min * 60) * 1000 / 3 * 3;
+        Log.e("testAL", hour + "시 " + min + "분");
+
+        return time;
+    }
+}
