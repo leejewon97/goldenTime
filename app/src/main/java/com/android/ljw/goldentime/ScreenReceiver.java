@@ -15,8 +15,8 @@ public class ScreenReceiver extends BroadcastReceiver
 {
     private SharedPreferences timeData;
     Boolean setCheck = false;
-    AlarmManager alarmManager;
-    PendingIntent pIntent;
+    static AlarmManager alarmManager;
+    static PendingIntent pIntent;
     static long[] dates = new long[6];
 
     @Override
@@ -55,7 +55,7 @@ public class ScreenReceiver extends BroadcastReceiver
         }
     }
 
-    private void setAlarm(Context context, long time) {
+    public static void setAlarm(Context context, long time) {
         Log.e("testAL", "setAlarm()");
         dates[0] = System.currentTimeMillis();
         for (int i = 1; i < dates.length; i++) {

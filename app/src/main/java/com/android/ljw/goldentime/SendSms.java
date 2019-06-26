@@ -36,6 +36,14 @@ public class SendSms extends AppCompatActivity
 //                sendSMS 대신 setAlarm(추가시간)
 //            }else
 //                sendSms()
+            long extraTime = 0;
+            for (int i = 0; i < eDates.length; i++)
+                extraTime += except(eDates[i][0], eDates[i][1]);
+
+            if (notSendCheck)
+                ScreenReceiver.setAlarm(getBaseContext(), extraTime);
+            else
+                sendSms();
         } else
             sendSms();
     }
@@ -46,16 +54,34 @@ public class SendSms extends AppCompatActivity
     private long except(int day1[], int day2[]) {
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
-        calendar1.set(day1[0],day1[1],day1[2],start_eHour,start_eMin);
-        calendar2.set(day2[0],day2[1],day2[2],end_eHour,end_eMin);
+        calendar1.set(day1[0], day1[1], day1[2], start_eHour, start_eMin);
+        calendar2.set(day2[0], day2[1], day2[2], end_eHour, end_eMin);
 
-        long start = calendar1.getTimeInMillis();
-        long end = calendar2.getTimeInMillis();
+        long startTime = calendar1.getTimeInMillis();
+        long endTime = calendar2.getTimeInMillis();
         long setTime = dates[0];
         long sendTime = System.currentTimeMillis();
         long confTime = 0;
 
-
+        if (setTime <= startTime) {
+            if (sendTime > startTime && sendTime <= endTime) {
+                confTime = sendTime - startTime
+                        + (endTime - sendTime);
+                notSendCheck = true;
+            } else if (sendTime > endTime) {
+                confTime = endTime - startTime;
+                notSendCheck = true;
+            }
+        } else if (setTime > startTime && setTime <= endTime) {
+            if (sendTime > startTime && sendTime <= endTime) {
+                confTime = sendTime - setTime
+                        + (endTime - sendTime);
+                notSendCheck = true;
+            } else if (sendTime > endTime) {
+                confTime = endTime - setTime;
+                notSendCheck = true;
+            }
+        }
 
         return confTime;
     }
