@@ -111,12 +111,10 @@ public class TimeSetActivity extends AppCompatActivity
                 if (start_eHour == end_eHour && start_eMin == end_eMin) {
                     exceptCheck = false;
                     Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else if (btn_start.getText().equals("시작 시간") || btn_end.getText().equals("끝나는 시간")){
+                } else if (btn_start.getText().equals("시작 시간") || btn_end.getText().equals("끝나는 시간")) {
                     exceptCheck = false;
                     Toast.makeText(getBaseContext(), "예외시간이 설정되지 않았습니다.", Toast.LENGTH_SHORT).show();
-                }
-                else {
+                } else {
                     exceptCheck = true;
                     Toast.makeText(getBaseContext(), "예외시간 : " + btn_start.getText() + " ~ " + btn_end.getText(), Toast.LENGTH_SHORT).show();
                 }
@@ -150,6 +148,7 @@ public class TimeSetActivity extends AppCompatActivity
             editor.remove("END_E_HOUR");
             editor.remove("END_E_MIN");
         }
+        editor.putBoolean("EXCEPT_CHECK", exceptCheck);
 
         editor.apply();
     }
@@ -164,5 +163,7 @@ public class TimeSetActivity extends AppCompatActivity
         start_eMin = timeData.getInt("START_E_MIN", calendar.get(Calendar.MINUTE));
         end_eHour = timeData.getInt("END_E_HOUR", calendar.get(Calendar.HOUR_OF_DAY));
         end_eMin = timeData.getInt("END_E_MIN", calendar.get(Calendar.MINUTE));
+
+        exceptCheck = timeData.getBoolean("EXCEPT_CHECK", false);
     }
 }
