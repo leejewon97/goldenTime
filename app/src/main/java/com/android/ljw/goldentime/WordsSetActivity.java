@@ -10,7 +10,6 @@ import android.widget.EditText;
 public class WordsSetActivity extends AppCompatActivity
 {
     private SharedPreferences wordsData;
-    String wordsSOS;
     EditText editText, editTextSOS;
     Button btn_set;
 
@@ -34,7 +33,6 @@ public class WordsSetActivity extends AppCompatActivity
                 onBackPressed();
             }
         });
-
     }
 
     private void save() {

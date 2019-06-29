@@ -9,9 +9,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.widget.Toast;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-
 import static android.content.Context.MODE_PRIVATE;
 
 public class ScreenReceiver extends BroadcastReceiver
@@ -68,7 +65,7 @@ public class ScreenReceiver extends BroadcastReceiver
         }
     }
 
-    public static  void setAlarm(Context context, long time) {
+    public static void setAlarm(Context context, long time) {
         Log.e("testAL", "setAlarm()");
         dates[0] = System.currentTimeMillis();
         for (int i = 1; i < dates.length; i++) {
