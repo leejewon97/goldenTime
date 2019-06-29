@@ -3,6 +3,7 @@
     package="com.android.ljw.goldentime">
 
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.SEND_SMS" />
 
     <application
         android:allowBackup="true"
@@ -11,9 +12,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SendSms"></activity>
-        <activity android:name=".WordsSetActivity" />
-
+        <service
+            android:name=".CalculateETService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <service
+            android:name=".SendSmsService"
+            android:enabled="true"
+            android:exported="true" />
         <service
             android:name=".ScreenService"
             android:enabled="true"
@@ -28,6 +34,7 @@
             </intent-filter>
         </receiver>
 
+        <activity android:name=".WordsSetActivity" />
         <activity android:name=".TimeSetActivity" />
         <activity android:name=".NumSetActivity" />
         <activity android:name=".MainActivity">

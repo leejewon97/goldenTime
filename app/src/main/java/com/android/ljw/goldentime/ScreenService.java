@@ -48,6 +48,8 @@ public class ScreenService extends Service
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mReceiver);
+        Log.e("testsc", "ScreenService Destroy");
+        Toast.makeText(getBaseContext(), "sc service destroy", Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -1,9 +1,13 @@
 package com.android.ljw.goldentime;
 
+import android.Manifest;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -15,12 +19,8 @@ public class MainActivity extends AppCompatActivity
 {
 
     Button btn_num, btn_time, btn_words, btn_sos;
+    public static final int REQ_SMS = 999;
     private long time = 0;
-//    static TimerTask mTask;
-//    private Timer mTimer;
-
-//    long setedTime = 360000;
-//    static int count = 0;
 
     @Override
     public void onBackPressed() {
@@ -35,6 +35,32 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (checkSelfPermission(Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                String[] permissions = {Manifest.permission.SEND_SMS};
+                requestPermissions(permissions, REQ_SMS);
+            } else
+                init();
+        } else
+            init();
+
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        if (requestCode == REQ_SMS) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED)
+                init();
+            else {
+                Toast.makeText(this, "권한을 허용하지 않으면 앱을 사용 하실 수 없습니다.", Toast.LENGTH_SHORT).show();
+                super.onBackPressed();
+            }
+        }
+    }
+
+    private void init() {
         sendBroadcast(new Intent(".intent_gogo"));
         Log.e("testsc", "send_broadcast");
 
@@ -70,65 +96,12 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-//
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-//        intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-//
-//        registerReceiver(screenOnOff, intentFilter);
+        btn_sos.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
 
-//        mTask = new TimerTask() {
-//            @Override
-//            public void run() {
-////                Log.e("test","전송");
-////                Toast.makeText(MainActivity.this,"위험 문자 전송",Toast.LENGTH_SHORT).show();
-//                count++;
-//            }
-//        };
-//        mTimer = new Timer(true);
+            }
+        });
     }
-
-//   public TimerTask redefTask(){
-//        TimerTask tempTask = new TimerTask()
-//        {
-//            @Override
-//            public void run() {
-//                count++;
-//                Log.e("test카운트",String.valueOf(count));
-//            }
-//        };
-//        return tempTask;
-//    }
-
-//    BroadcastReceiver screenOnOff = new BroadcastReceiver()
-//    {
-//        public static final String ScreenOff = "android.intent.action.SCREEN_OFF";
-//        public static final String ScreenOn = "android.intent.action.SCREEN_ON";
-//
-//        public void onReceive(Context context, Intent intent)
-//        {
-//            if (Objects.equals(intent.getAction(), ScreenOff))
-//            {
-//                Log.e("testsc", "Screen Off");
-//                //count 시작... 도달하면, sms 전송
-////                mTask = redefTask();
-////                mTimer.schedule(mTask,0,1000);
-//
-//            }
-//            else if (Objects.equals(intent.getAction(), ScreenOn))
-//            {
-//                Log.e("testsc", "Screen On");
-//                //count = 0
-////                mTask.cancel();
-////                count = 0;
-////                Log.e("test카운트",String.valueOf(count));
-//            }
-//        }
-//    };
-//
-//    protected void onDestroy()
-//    {
-//        super.onDestroy();
-//        unregisterReceiver(screenOnOff);
-//    }
 }
