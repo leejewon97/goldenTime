@@ -38,6 +38,8 @@ public class SendSmsService extends Service
 
     public void sendSMS() {
         Log.e("sendSms", "SendSms");
+        ScreenReceiver.checkSet = false;
+
         numData = getSharedPreferences("numData", MODE_PRIVATE);
         wordsData = getSharedPreferences("wordsData", MODE_PRIVATE);
 
