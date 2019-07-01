@@ -46,9 +46,14 @@ public class SendSmsService extends Service
         SmsManager smsManager = SmsManager.getDefault();
         String msg = wordsData.getString("WORDS", "");
         if (msg.equals("")) {
-            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH시간 mm분");
+            SimpleDateFormat HFormat = new SimpleDateFormat("HH");
+            SimpleDateFormat mFormat = new SimpleDateFormat("mm");
             long time = System.currentTimeMillis() - ScreenReceiver.dates[0];
-            msg = simpleDateFormat.format(time) + " 동안 핸드폰을 사용하지 않았습니다.";
+            if (time >= 24 * 60 * 60 * 1000)
+                msg = HFormat.format(time) + "시간 " + mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
+            else
+                msg = mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
+            Log.e("time,msg", time + ", " + msg);
         }
 
         for (int i = 0; i < 5; i++) {
