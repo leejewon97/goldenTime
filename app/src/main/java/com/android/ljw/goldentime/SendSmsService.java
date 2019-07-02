@@ -68,7 +68,7 @@ public class SendSmsService extends Service
         } else if (intent.getStringExtra("state").equals("SOS")) {
             String msg = wordsData.getString("WORDS_SOS", "");
             if (msg.equals("")) {
-                msg = "기본 긴급 문자";
+                msg = "기본 긴급 문자.";
             }
             if (!numData.getString("SOS", "").equals("")) {
                 msg += " 위치 조회 : http://bit.ly/2XmxpLI";
