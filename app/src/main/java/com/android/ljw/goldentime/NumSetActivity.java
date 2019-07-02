@@ -12,7 +12,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-
 import com.android.ljw.goldentime.databinding.ActivityNumSetBinding;
 
 public class NumSetActivity extends AppCompatActivity

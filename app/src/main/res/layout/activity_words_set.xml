@@ -34,6 +34,7 @@
         android:background="@drawable/border"
         android:ems="10"
         android:gravity="start|top"
+        android:hint="기본 긴급 문자"
         android:inputType="textMultiLine"
         android:lines="5"
         android:maxLength="40"
