@@ -12,12 +12,14 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+
 import com.android.ljw.goldentime.databinding.ActivityNumSetBinding;
 
 public class NumSetActivity extends AppCompatActivity
 {
     private SharedPreferences numData;
     ActivityNumSetBinding numSetBinding;
+    boolean sosErased = false;
     Button[] plus;
     Button[] minus;
     EditText[] num;
@@ -51,8 +53,12 @@ public class NumSetActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     for (int j = 0; j < 5; j++) {
-                        if (view.getId() == minus[j].getId())
+                        if (view.getId() == minus[j].getId()) {
+                            if (num[j].getText().toString().equals(numData.getString("SOS", ""))) {
+                                sosErased = true;
+                            }
                             num[j].getText().clear();
+                        }
                     }
                 }
             });
@@ -64,7 +70,7 @@ public class NumSetActivity extends AppCompatActivity
                 public void onClick(View view) {
                     int index = 0;
                     for (int j = 0; j < 5; j++) {
-                        if (view.getId() == plus[j].getId()){
+                        if (view.getId() == plus[j].getId()) {
                             index = j;
                             break;
                         }
@@ -96,10 +102,11 @@ public class NumSetActivity extends AppCompatActivity
     private void sort() {
         Log.e("sort", "실행");
         for (int i = 0; i < 4; i++) {
-            //string.equals("")가 안되서 TextUtils.isEmpty(string)로 대체했다
-            if (TextUtils.isEmpty(num[i].getText())) {
+            //string.equals("")가 안되서 TextUtils.isEmpty(String)로 대체했다
+            //해결책 찾음. getText.toString 하면 해결
+            if (num[i].getText().toString().equals("")) {
                 for (int k = i + 1; k < 5; k++) {
-                    if (!TextUtils.isEmpty(num[k].getText())) {
+                    if (!num[k].getText().toString().equals("")) {
                         num[i].setText(num[k].getText());
                         num[k].getText().clear();
                         break;
@@ -114,6 +121,8 @@ public class NumSetActivity extends AppCompatActivity
 
         for (int i = 0; i < 5; i++)
             editor.putString(key[i], num[i].getText().toString());
+        if (sosErased)
+            editor.remove("SOS");
 
         editor.apply();
     }

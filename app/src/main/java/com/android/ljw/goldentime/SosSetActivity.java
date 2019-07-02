@@ -42,7 +42,7 @@ public class SosSetActivity extends AppCompatActivity
                     SharedPreferences.Editor editor = numData.edit();
 
                     for (int j = 0; j < 5; j++) {
-                        if (view.getId() == nums[j].getId()) {
+                        if (view.getId() == nums[j].getId() && !nums[j].getText().equals("")) {
                             if (sosNum.equals("")) {
                                 for (int k = 0; k < 5; k++) {
                                     nums[k].setEnabled(false);
