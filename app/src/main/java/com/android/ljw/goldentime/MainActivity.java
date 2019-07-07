@@ -1,7 +1,11 @@
 package com.android.ljw.goldentime;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -15,7 +19,8 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity
 {
 
-    Button btn_num, btn_time, btn_words, btn_sos;
+    public static final String CHANNEL_ID = "default";
+    Button btn_num, btn_time, btn_words, btn_sos, btn_power;
     public static final int REQ_SMS = 999;
     private long time = 0;
 
@@ -57,9 +62,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.channel_name);
+            String description = getString(R.string.channel_description);
+            int importance = NotificationManager.IMPORTANCE_NONE;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
     private void init() {
-        sendBroadcast(new Intent(".intent_gogo"));
-        Log.e("testsc", "send_broadcast");
+//        sendBroadcast(new Intent(".intent_gogo"));
+//        Log.e("testsc", "send_broadcast");
+
+        createNotificationChannel();
+
+        Intent service_intent = new Intent(this, ScreenService.class);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            startForegroundService(service_intent);
+            Log.e("testsc", "ForegroundService");
+        } else {
+            startService(service_intent);
+            Log.e("testsc", "Service");
+        }
 
         setContentView(R.layout.activity_main);
 
@@ -67,6 +95,7 @@ public class MainActivity extends AppCompatActivity
         btn_time = findViewById(R.id.btn_time);
         btn_words = findViewById(R.id.btn_words);
         btn_sos = findViewById(R.id.btn_sos);
+        btn_power = findViewById(R.id.btn_power);
 
         btn_num.setOnClickListener(new View.OnClickListener()
         {
@@ -99,6 +128,28 @@ public class MainActivity extends AppCompatActivity
             public void onClick(View view) {
                 Intent intent = new Intent(getBaseContext(), SosSetActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        btn_power.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View view) {
+                if (ScreenService.power_switch) {
+                    Intent service_intent = new Intent(getBaseContext(), ScreenService.class);
+                    stopService(service_intent);
+                    Toast.makeText(getBaseContext(), "꺼짐", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent service_intent = new Intent(getBaseContext(), ScreenService.class);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                        startForegroundService(service_intent);
+                        Log.e("testsc", "ForegroundService");
+                    } else {
+                        startService(service_intent);
+                        Log.e("testsc", "Service");
+                    }
+                    Toast.makeText(getBaseContext(), "켜짐", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }

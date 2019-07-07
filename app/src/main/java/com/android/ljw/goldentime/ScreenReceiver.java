@@ -58,20 +58,20 @@ public class ScreenReceiver extends BroadcastReceiver
             } else
                 checkRinged = false;
         }
-        if (intent.getAction().equals(".intent_gogo")) {
-            Log.e("testsc", "intent gogo");
-
-//            Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
-
-            Intent service_intent = new Intent(context, ScreenService.class);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                context.startForegroundService(service_intent);
-                Log.e("testsc", "ForegroundService");
-            } else {
-                context.startService(service_intent);
-                Log.e("testsc", "Service");
-            }
-        }
+//        if (intent.getAction().equals(".intent_gogo")) {
+//            Log.e("testsc", "intent gogo");
+//
+////            Toast.makeText(context, "intent gogo", Toast.LENGTH_SHORT).show();
+//
+//            Intent service_intent = new Intent(context, ScreenService.class);
+//            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                context.startForegroundService(service_intent);
+//                Log.e("testsc", "ForegroundService");
+//            } else {
+//                context.startService(service_intent);
+//                Log.e("testsc", "Service");
+//            }
+//        }
     }
 
     public static void setAlarm(Context context, long time) {
