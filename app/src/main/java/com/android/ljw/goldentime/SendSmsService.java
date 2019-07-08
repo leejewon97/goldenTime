@@ -10,6 +10,7 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 
@@ -27,35 +28,20 @@ public class SendSmsService extends Service
         super.onCreate();
         Log.e("sendSms", "SendSms Service create");
 
-        Intent NotiIntent = new Intent(this, SendSmsService.class);
-        NotiIntent.putExtra("state", "SOS");
-        PendingIntent pendingIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            pendingIntent = PendingIntent.getForegroundService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        } else {
-            pendingIntent = PendingIntent.getService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-
-        Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID) //CHANNEL_ID 채널에 지정한 아이디
-                .setContentTitle("SOS")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true).build();
-
+        Notification notification = new NotificationCompat.Builder(this, "").build();
         startForeground(5678, notification);
-//        onDestroy();
     }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("sendSms", "SendSms Service startCommand");
         //여기서 작업
-        sendSMS(intent);
+        sendSMS();
         stopService(intent);
         return super.onStartCommand(intent, flags, startId);
     }
 
-    public void sendSMS(Intent intent) {
+    public void sendSMS() {
         Log.e("sendSms", "SendSms");
         ScreenReceiver.checkSet = false;
 
@@ -64,38 +50,28 @@ public class SendSmsService extends Service
 
         SmsManager smsManager = SmsManager.getDefault();
 
-        if (intent.getStringExtra("state").equals("ORDINARY")) {
-            String msg = wordsData.getString("WORDS", "");
-            if (msg.equals("")) {
-                SimpleDateFormat HFormat = new SimpleDateFormat("HH");
-                SimpleDateFormat mFormat = new SimpleDateFormat("mm");
-                long time = System.currentTimeMillis() - ScreenReceiver.dates[0];
-                if (time >= 24 * 60 * 60 * 1000)
-                    msg = HFormat.format(time) + "시간 " + mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
-                else
-                    msg = mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
-                Log.e("time,msg", time + ", " + msg);
-            }
+        String msg = wordsData.getString("WORDS", "");
+        if (msg.equals("")) {
+            SimpleDateFormat HFormat = new SimpleDateFormat("HH");
+            SimpleDateFormat mFormat = new SimpleDateFormat("mm");
+            long time = System.currentTimeMillis() - ScreenReceiver.dates[0];
+            if (time >= 24 * 60 * 60 * 1000)
+                msg = HFormat.format(time) + "시간 " + mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
+            else
+                msg = mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
+            Log.e("time,msg", time + ", " + msg);
+        }
 
-            for (int i = 0; i < 5; i++) {
-                numbers[i] = numData.getString(key[i], "");
-                if (!numbers[i].equals("")) {
-                    msg += " 위치 조회 : http://bit.ly/2XmxpLI";
-                    smsManager.sendTextMessage(numbers[i], null, msg, null, null);
-                    Log.e("sendSms", "SendSms to " + numbers[i]);
-                } else
-                    break;
-            }
-        } else if (intent.getStringExtra("state").equals("SOS")) {
-            String msg = wordsData.getString("WORDS_SOS", "");
-            if (msg.equals("")) {
-                msg = "기본 긴급 문자.";
-            }
-            if (!numData.getString("SOS", "").equals("")) {
+
+        for (int i = 0; i < 5; i++) {
+            numbers[i] = numData.getString(key[i], "");
+            if (!numbers[i].equals("")) {
                 msg += " 위치 조회 : http://bit.ly/2XmxpLI";
-                smsManager.sendTextMessage(numData.getString("SOS", ""), null, msg, null, null);
-                Log.e("sendSms", "SendSms to " + numData.getString("SOS", ""));
-            }
+                smsManager.sendTextMessage(numbers[i], null, msg, null, null);
+                Log.e("sendSms", "SendSms to " + numbers[i]);
+                Toast.makeText(this, numbers[i] + "님께 문자를 전송하였습니다.", Toast.LENGTH_SHORT).show();
+            } else
+                break;
         }
     }
 

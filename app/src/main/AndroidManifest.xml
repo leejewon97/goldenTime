@@ -13,7 +13,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".SosSetActivity"></activity>
+        <service
+            android:name=".SendSosService"
+            android:enabled="true"
+            android:exported="true"></service>
+
+        <activity android:name=".SosSetActivity" />
 
         <service
             android:name=".CalculateETService"
@@ -32,9 +37,10 @@
             android:name=".ScreenReceiver"
             android:enabled="true"
             android:exported="true">
-            <!--<intent-filter>-->
-                <!--<action android:name=".intent_gogo" />-->
-            <!--</intent-filter>-->
+
+            <!-- <intent-filter> -->
+            <!-- <action android:name=".intent_gogo" /> -->
+            <!-- </intent-filter> -->
         </receiver>
 
         <activity android:name=".WordsSetActivity" />

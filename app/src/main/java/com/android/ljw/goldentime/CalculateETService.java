@@ -28,24 +28,9 @@ public class CalculateETService extends Service
     public void onCreate() {
         super.onCreate();
         Log.e("calculateET", "calculateET Service create");
-        Intent NotiIntent = new Intent(this, SendSmsService.class);
-        NotiIntent.putExtra("state", "SOS");
-        PendingIntent pendingIntent;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            pendingIntent = PendingIntent.getForegroundService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        } else {
-            pendingIntent = PendingIntent.getService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        }
-
-        Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID) //CHANNEL_ID 채널에 지정한 아이디
-                .setContentTitle("SOS")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
-                .setContentIntent(pendingIntent)
-                .setOngoing(true).build();
-
+        
+        Notification notification = new NotificationCompat.Builder(this, "").build();
         startForeground(90, notification);
-
-//        onDestroy();
     }
 
     @Override

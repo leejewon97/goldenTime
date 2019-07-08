@@ -24,7 +24,7 @@ public class ScreenService extends Service
     public void onCreate() {
         super.onCreate();
         Log.e("testsc", "ScreenService create");
-        Toast.makeText(this, "start service", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(this, "start service", Toast.LENGTH_SHORT).show();
         power_switch = true;
 
         IntentFilter intentFilter = new IntentFilter();
@@ -38,8 +38,7 @@ public class ScreenService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("testsc", "ScreenService startCommand");
 
-        Intent NotiIntent = new Intent(this, SendSmsService.class);
-        NotiIntent.putExtra("state", "SOS");
+        Intent NotiIntent = new Intent(this, SendSosService.class);
         PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             pendingIntent = PendingIntent.getForegroundService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
@@ -48,7 +47,7 @@ public class ScreenService extends Service
         }
 
         Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID) //CHANNEL_ID 채널에 지정한 아이디
-                .setContentTitle(" SOS <긴급 문자 보내기>")
+                .setContentTitle("  SOS  <긴급 문자 보내기>")
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pendingIntent)
                 .setOngoing(true).build();
@@ -71,7 +70,7 @@ public class ScreenService extends Service
         super.onDestroy();
         unregisterReceiver(mReceiver);
         Log.e("testsc", "ScreenService Destroy");
-        Toast.makeText(getBaseContext(), "sc service destroy", Toast.LENGTH_SHORT).show();
+//        Toast.makeText(getBaseContext(), "ScreenService Destroy", Toast.LENGTH_SHORT).show();
         power_switch = false;
     }
 

@@ -84,7 +84,6 @@ public class ScreenReceiver extends BroadcastReceiver
         alarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(context, SendSmsService.class);
-        intent.putExtra("state", "ORDINARY");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             pIntent = PendingIntent.getForegroundService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
