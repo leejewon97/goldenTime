@@ -28,9 +28,6 @@ public class CalculateETService extends Service
     public void onCreate() {
         super.onCreate();
         Log.e("calculateET", "calculateET Service create");
-        
-        Notification notification = new NotificationCompat.Builder(this, "").build();
-        startForeground(90, notification);
     }
 
     @Override
@@ -54,6 +51,7 @@ public class CalculateETService extends Service
         stopService(intent);
         return super.onStartCommand(intent, flags, startId);
     }
+
     private long except(int day1[], int day2[]) {
         Calendar calendar1 = Calendar.getInstance();
         Calendar calendar2 = Calendar.getInstance();
@@ -80,6 +78,7 @@ public class CalculateETService extends Service
         Log.e("except", "confTime : " + confTime);
         return confTime;
     }
+
     private long lastCheck(long eTime, int day1[], int day2[]) {
         long checkTime = dates[0] + alarmTime + eTime;
         Calendar calendar1 = Calendar.getInstance();
@@ -95,6 +94,7 @@ public class CalculateETService extends Service
         else
             return 0;
     }
+
     private void eLoad() {
         timeData = getSharedPreferences("timeData", MODE_PRIVATE);
         start_eHour = timeData.getInt("START_E_HOUR", 0);
@@ -102,6 +102,7 @@ public class CalculateETService extends Service
         end_eHour = timeData.getInt("END_E_HOUR", 0);
         end_eMin = timeData.getInt("END_E_MIN", 0);
     }
+
     private void selectDates() {
         SimpleDateFormat yFormat = new SimpleDateFormat("yyyy");
         SimpleDateFormat MFormat = new SimpleDateFormat("MM");

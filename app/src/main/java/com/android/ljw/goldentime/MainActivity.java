@@ -3,9 +3,7 @@ package com.android.ljw.goldentime;
 import android.Manifest;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.support.annotation.NonNull;
@@ -143,10 +141,8 @@ public class MainActivity extends AppCompatActivity
                     Intent service_intent = new Intent(getBaseContext(), ScreenService.class);
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
                         startForegroundService(service_intent);
-                        Log.e("testsc", "ForegroundService");
                     } else {
                         startService(service_intent);
-                        Log.e("testsc", "Service");
                     }
                     Toast.makeText(getBaseContext(), "켜짐", Toast.LENGTH_SHORT).show();
                 }

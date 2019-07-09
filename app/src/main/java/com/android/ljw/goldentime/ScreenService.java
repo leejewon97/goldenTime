@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
-import android.widget.Toast;
 
 public class ScreenService extends Service
 {
@@ -38,19 +37,23 @@ public class ScreenService extends Service
     public int onStartCommand(Intent intent, int flags, int startId) {
         Log.e("testsc", "ScreenService startCommand");
 
-        Intent NotiIntent = new Intent(this, SendSosService.class);
+        Intent notiIntent = new Intent(this, SendSosService.class);
         PendingIntent pendingIntent;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            pendingIntent = PendingIntent.getForegroundService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getForegroundService(this, 0, notiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         } else {
-            pendingIntent = PendingIntent.getService(this, 0, NotiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+            pendingIntent = PendingIntent.getService(this, 0, notiIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         }
 
+        PendingIntent openIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID) //CHANNEL_ID 채널에 지정한 아이디
-                .setContentTitle("  SOS  <긴급 문자 보내기>")
+                .setContentTitle("SOS  <긴급 문자 보내기>")
+                .setContentText("앱을 실행 하려면 밑으로 내려주세요.")
                 .setSmallIcon(R.mipmap.ic_launcher_round)
                 .setContentIntent(pendingIntent)
-                .setOngoing(true).build();
+                .addAction(0, "앱 열기", openIntent)
+                .setOngoing(true)
+                .build();
 
         startForeground(1234, notification);
 //        if (intent == null) {
