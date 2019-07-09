@@ -6,6 +6,8 @@ import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Build;
 import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
@@ -48,10 +50,11 @@ public class ScreenService extends Service
         PendingIntent openIntent = PendingIntent.getActivity(this, 0, new Intent(this, MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
         Notification notification = new NotificationCompat.Builder(this, MainActivity.CHANNEL_ID) //CHANNEL_ID 채널에 지정한 아이디
                 .setContentTitle("SOS  <긴급 문자 보내기>")
-                .setContentText("앱을 실행 하려면 밑으로 내려주세요.")
-                .setSmallIcon(R.mipmap.ic_launcher_round)
+                .setContentText("앱을 실행 하려면 밑에 '열기'를 눌러주세요.")
+                .setLargeIcon(BitmapFactory.decodeResource(getResources(),R.mipmap.ic_launcher))
+                .setSmallIcon(R.drawable.ic_stat_golden_time)
                 .setContentIntent(pendingIntent)
-                .addAction(0, "앱 열기", openIntent)
+                .addAction(0, "열기", openIntent)
                 .setOngoing(true)
                 .build();
 
