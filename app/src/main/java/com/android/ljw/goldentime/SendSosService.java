@@ -13,7 +13,7 @@ public class SendSosService extends Service
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.e("sendSos", "SendSos Service create");
+        Log.e("testsc", "SendSos Service create");
 
         Intent inputIntent = new Intent(this, SendSmsService.class);
         inputIntent.putExtra("state", "SOS");
@@ -29,7 +29,7 @@ public class SendSosService extends Service
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.e("sendSos", "SendSos Service Destroy");
+        Log.e("testsc", "SendSos Service Destroy");
     }
 
     @Override

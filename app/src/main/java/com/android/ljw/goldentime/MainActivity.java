@@ -9,7 +9,6 @@ import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -73,19 +72,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void init() {
-//        sendBroadcast(new Intent(".intent_gogo"));
-//        Log.e("testsc", "send_broadcast");
-
         createNotificationChannel();
-
-        Intent service_intent = new Intent(this, ScreenService.class);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            startForegroundService(service_intent);
-            Log.e("testsc", "ForegroundService");
-        } else {
-            startService(service_intent);
-            Log.e("testsc", "Service");
-        }
 
         setContentView(R.layout.activity_main);
 

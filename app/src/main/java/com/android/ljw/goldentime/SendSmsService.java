@@ -40,7 +40,6 @@ public class SendSmsService extends Service
 
     public void sendSMS(Intent intent) {
         Log.e("sendSms", "SendSms");
-        ScreenReceiver.checkSet = false;
 
         numData = getSharedPreferences("numData", MODE_PRIVATE);
         wordsData = getSharedPreferences("wordsData", MODE_PRIVATE);
@@ -48,6 +47,8 @@ public class SendSmsService extends Service
         SmsManager smsManager = SmsManager.getDefault();
 
         if (intent.getStringExtra("state").equals("ORDINARY")) {
+            ScreenReceiver.checkSet = false;
+
             String msg = wordsData.getString("WORDS", "");
             if (msg.equals("")) {
                 SimpleDateFormat HFormat = new SimpleDateFormat("HH");

@@ -16,7 +16,7 @@
         <service
             android:name=".SendSosService"
             android:enabled="true"
-            android:exported="true"></service>
+            android:exported="true" />
 
         <activity android:name=".SosSetActivity" />
 
@@ -37,12 +37,12 @@
             android:name=".ScreenReceiver"
             android:enabled="true"
             android:exported="true">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name=".intent_gogo" /> -->
-            <!-- </intent-filter> -->
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <!--2분 내에 실행-->
+            </intent-filter>
         </receiver>
-
         <activity android:name=".WordsSetActivity" />
         <activity android:name=".TimeSetActivity" />
         <activity android:name=".NumSetActivity" />

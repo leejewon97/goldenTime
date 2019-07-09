@@ -25,7 +25,6 @@ public class ScreenService extends Service
     public void onCreate() {
         super.onCreate();
         Log.e("testsc", "ScreenService create");
-//        Toast.makeText(this, "start service", Toast.LENGTH_SHORT).show();
         power_switch = true;
 
         IntentFilter intentFilter = new IntentFilter();
@@ -59,15 +58,7 @@ public class ScreenService extends Service
                 .build();
 
         startForeground(1234, notification);
-//        if (intent == null) {
-//            Log.e("testsc", "intent == null");
-//
-//            IntentFilter intentFilter = new IntentFilter();
-//            intentFilter.addAction(Intent.ACTION_SCREEN_ON);
-//            intentFilter.addAction(Intent.ACTION_SCREEN_OFF);
-//            mReceiver = new ScreenReceiver();
-//            registerReceiver(mReceiver, intentFilter);
-//        }
+
         return START_STICKY;
     }
 
