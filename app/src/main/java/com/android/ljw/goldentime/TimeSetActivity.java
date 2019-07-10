@@ -34,7 +34,7 @@ public class TimeSetActivity extends AppCompatActivity
 
         hourPicker.setMinValue(0);
         //테스트용으로 잠시 최솟값을 0으로 낮춤
-        hourPicker.setMaxValue(100);
+        hourPicker.setMaxValue(95);
         hourPicker.setWrapSelectorWheel(false);
         hourPicker.setOnLongPressUpdateInterval(100);
 //        hourPicker.setOnValueChangedListener(new NumberPicker.OnValueChangeListener()

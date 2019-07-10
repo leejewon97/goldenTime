@@ -28,18 +28,7 @@ public class ScreenReceiver extends BroadcastReceiver
         timeData = context.getSharedPreferences("timeData", MODE_PRIVATE);
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
 
-        if (Intent.ACTION_BOOT_COMPLETED.equals(intent.getAction())) {
-            Log.e("testsc", "BOOT");
-
-            Intent service_intent = new Intent(context, ScreenService.class);
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                context.startForegroundService(service_intent);
-                Log.e("testsc", "ForegroundService");
-            } else {
-                context.startService(service_intent);
-                Log.e("testsc", "Service");
-            }
-        } else if (intent.getAction().equals(Intent.ACTION_SCREEN_ON) && checkSet) {
+        if (intent.getAction().equals(Intent.ACTION_SCREEN_ON) && checkSet) {
             Log.e("testsc", "Screen On");
 
             telephonyManager.listen(listener, PhoneStateListener.LISTEN_CALL_STATE);

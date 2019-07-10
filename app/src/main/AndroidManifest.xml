@@ -13,6 +13,30 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <receiver
+            android:name=".PackageReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.PACKAGE_ADDED" />
+                <action android:name="android.intent.action.PACKAGE_REPLACED" />
+                <data
+                    android:path="com.android.ljw.goldentime"
+                    android:scheme="package" />
+                <!-- 패키지를 지정해야 이 앱에서만 설치시나 업데이트를 인지함 -->
+            </intent-filter>
+        </receiver>
+        <receiver
+            android:name=".BootReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.REBOOT" />
+                <!-- 2분 내에 실행 -->
+            </intent-filter>
+        </receiver>
+
         <service
             android:name=".SendSosService"
             android:enabled="true"
@@ -36,13 +60,8 @@
         <receiver
             android:name=".ScreenReceiver"
             android:enabled="true"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.intent.action.REBOOT" />
-                <!--2분 내에 실행-->
-            </intent-filter>
-        </receiver>
+            android:exported="true"></receiver>
+
         <activity android:name=".WordsSetActivity" />
         <activity android:name=".TimeSetActivity" />
         <activity android:name=".NumSetActivity" />

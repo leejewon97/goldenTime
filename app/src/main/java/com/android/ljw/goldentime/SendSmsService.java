@@ -51,14 +51,18 @@ public class SendSmsService extends Service
 
             String msg = wordsData.getString("WORDS", "");
             if (msg.equals("")) {
-                SimpleDateFormat HFormat = new SimpleDateFormat("HH");
-                SimpleDateFormat mFormat = new SimpleDateFormat("mm");
-                long time = System.currentTimeMillis() - ScreenReceiver.dates[0];
-                if (time >= 24 * 60 * 60 * 1000)
-                    msg = HFormat.format(time) + "시간 " + mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
-                else
-                    msg = mFormat.format(time) + "분 동안 핸드폰을 사용하지 않았습니다.";
-                Log.e("time,msg", time + ", " + msg);
+//                long minute = (System.currentTimeMillis() - ScreenReceiver.dates[0]) / (60 * 1000);
+                long minute = 365;
+                String hour = String.valueOf(minute / 60);
+                String min = String.valueOf(minute % 60);
+                if (minute >= 60) {
+                    if (min.equals("0"))
+                        msg = hour + "시간 동안 핸드폰을 사용하지 않았습니다.";
+                    else
+                        msg = hour + "시간 " + min + "분 동안 핸드폰을 사용하지 않았습니다.";
+                } else
+                    msg = min + "분 동안 핸드폰을 사용하지 않았습니다.";
+                Log.e("time", minute + ", " + msg);
             }
 
             for (int i = 0; i < 5; i++) {
