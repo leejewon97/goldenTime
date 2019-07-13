@@ -1,18 +1,11 @@
 package com.android.ljw.goldentime;
 
-import android.app.Notification;
-import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.IBinder;
-import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.widget.Toast;
-
-import java.text.SimpleDateFormat;
 
 public class SendSmsService extends Service
 {
@@ -51,10 +44,11 @@ public class SendSmsService extends Service
 
             String msg = wordsData.getString("WORDS", "");
             if (msg.equals("")) {
-//                long minute = (System.currentTimeMillis() - ScreenReceiver.dates[0]) / (60 * 1000);
-                long minute = 365;
+                long minute = (System.currentTimeMillis() - ScreenReceiver.dates[0]) / (60 * 1000);
+                //setAlarm부터 sendSms까지의 시간을 분으로 환산
                 String hour = String.valueOf(minute / 60);
                 String min = String.valueOf(minute % 60);
+                //그 시간들을 시간과 분으로 나눠서 저장
                 if (minute >= 60) {
                     if (min.equals("0"))
                         msg = hour + "시간 동안 핸드폰을 사용하지 않았습니다.";
