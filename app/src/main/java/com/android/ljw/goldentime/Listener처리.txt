@@ -1,0 +1,36 @@
+﻿Ring = false;
+Move = true;
+
+	If(화면 켜지면) pListener ON
+	1. 화면이 그냥 켜졌을 때(직접 키거나, 알람등의 이유로 켜졌을 때)
+	pListener OFF
+	sListner ON
+	• 움직였을 때
+	- Move = true;
+	- releaseAlarm();
+	- sListener OFF
+	• 안 움직였을 때
+	- Move = false;
+	2. 화면이 전화 때문에 켜졌을 때
+	Ring = true;
+	• 받았을 때
+	- Ring = false;
+	- releaseAlarm();
+	- pListener OFF
+	• 안 받았을 때
+	- (Ring == true)
+	- sListener ON
+	- pListener OFF
+
+	If(화면 꺼지면)
+	1. Move == true && Ring == false
+	• setAlarm();
+	2. 그게 아니면
+	• Ring == true && Move == true
+	- setAlarm();
+
+	• Ring == true && Move == false
+	- sListener OFF
+	• Ring == false && Move == false
+	- sListener OFF
+	그리고 나서 boolean 초기화

@@ -1,0 +1,92 @@
+Set한 '날짜', '시각' 기준,
+날짜들[] = {'날짜', '날짜' + 1, '날짜' + 2, '날짜' + 3, '날짜' + 4, '날짜' + 5}
+
+시작시각, 끝시각, 예외날들[5][2][3]
+날정하기(){
+		If(시작시각 < 끝시각){
+			예외날들 = 
+			{ {{0y,0m,0d}, {0y,0m,0d}},
+			  {{1y,1m,1d}, {1y,1m,1d}},
+			  {{2y,2m,2d}, {2y,2m,2d}},
+			  {{3y,3m,3d}, {3y,3m,3d}},
+			  {{4y,4m,4d}, {4y,4m,4d}} }
+		}
+		Esle If(시작시각 > 끝시각){
+			If('시각' <= 끝시각){
+				예외날들 = 
+				{ {{-1y,-1m,-1d}, {0y,0m,0d}},
+				  {{0y,0m,0d}, {1y,1m,1d}},
+				  {{1y,1m,1d}, {2y,2m,2d}},
+				  {{2y,2m,2d}, {3y,3m,3d}},
+				  {{3y,3m,3d}, {4y,4m,4d}} }
+			}else {
+				예외날들 = 
+				{ {{0y,0m,0d}, {1y,1m,1d}},
+				  {{1y,1m,1d}, {2y,2m,2d}},
+				  {{2y,2m,2d}, {3y,3m,3d}},
+				  {{3y,3m,3d}, {4y,4m,4d}},
+				  {{4y,4m,4d}, {5y,5m,5d}} }
+			}
+		}
+}
+
+
+
+//set 할때 체크
+//long 추가시간
+//for(예외날들.length){
+//     추가시간 += 예외(예외날들[i][0], 예외날들[i][1])
+//}
+
+
+Boolean 예외확인 = false
+Private long 예외(날1, 날2){
+	Calendar calendar1, calendar2 = calendar.getInstance()
+	calendar1.set(날1[0],날1[1],날1[2],시작시,시작분)
+	calendar2.set(날2[0],날2[1],날2[2],끝시,끝분)
+	long '시각' = set할때 gettimeinmillis
+	long 시작시각 = calendar1.gettimeinmillis
+	long 끝시각 = calendar2.gettimeinmillis
+	long 현재시각 = send할때 gettimeinmillis
+	long 겹시간 = 0
+
+	If(case1){
+		겹시간 = 시작시각~현재시각
+		 + (끝시각 - 현재시각)
+		예외확인 = true
+	}
+	Else if(case2){
+		겹시간 = 시작시각~끝시각
+		예외확인 = true
+	}
+	Else if(case3){
+		겹시간 = '시각' ~ 끝시각
+		예외확인 = true
+	}
+	Else if(case4){
+		겹시간 = '시각' ~ 현재시각
+		+ (끝시각 - 현재시각)
+		예외확인 = true
+	}
+	
+	Return 겹시간
+}
+
+//set 할때 체크
+If(예외확인 == true){
+	getTime() += 추가시간
+
+while(check()){
+	//set 할때 체크
+	If(예외확인 == true){
+		getTime() += 추가시간
+}
+
+//current + getTime() 이 예외시간 안에 있다…를 검사
+Private boolean check(){
+	If(){
+		Return true;
+	}
+	
+	Return false;
+}

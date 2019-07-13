@@ -53,7 +53,7 @@ public class ScreenReceiver extends BroadcastReceiver
                         checkRinged = false;
                         releaseAlarm(context);
                         telephonyManager.listen(pListener, PhoneStateListener.LISTEN_NONE);
-                    } else if (state == TelephonyManager.CALL_STATE_IDLE && checkRinged){
+                    } else if (state == TelephonyManager.CALL_STATE_IDLE && checkRinged) {
                         Log.e("call", "못 받았거나 거절함");
                         telephonyManager.listen(pListener, PhoneStateListener.LISTEN_NONE);
                         sensorManager = (SensorManager) context.getSystemService(Context.SENSOR_SERVICE);
@@ -167,7 +167,7 @@ public class ScreenReceiver extends BroadcastReceiver
         } else if (Intent.ACTION_SCREEN_OFF.equals(intent.getAction())) {
             Log.e("testsc", "Screen Off");
 
-            if (checkMoVE && !checkRinged) {
+            if (checkMoVE) {
                 setAlarm(context, getTime());
                 if (timeData.getBoolean("EXCEPT_CHECK", false)) {
                     // 예외시간이 있으면, 계산 서비스 실행
@@ -182,24 +182,8 @@ public class ScreenReceiver extends BroadcastReceiver
                     }
                 }
             } else {
-                if (!checkMoVE) {
-                    sensorManager.unregisterListener(sListener);
-                    Log.e("sensor", "Sensor Off");
-                } else if (checkRinged){
-                    setAlarm(context, getTime());
-                    if (timeData.getBoolean("EXCEPT_CHECK", false)) {
-                        // 예외시간이 있으면, 계산 서비스 실행
-                        Intent service_intent = new Intent(context, CalculateETService.class);
-                        service_intent.putExtra("DATES", dates);
-                        service_intent.putExtra("ALARM_TIME", getTime());
-
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            context.startForegroundService(service_intent);
-                        } else {
-                            context.startService(service_intent);
-                        }
-                    }
-                }
+                sensorManager.unregisterListener(sListener);
+                Log.e("sensor", "Sensor Off");
             }
             // boolean 초기화
             checkMoVE = true;
